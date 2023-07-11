@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Recipe, RecipeDefault } from '../types';
+import Toast from '../components/Toast';
+import Modal from '../components/Modal';
 
 function Detail() {
   let { id } = useParams();
   const [recipe, setRecipe] = useState<Recipe>(RecipeDefault)
-
   const [activeTab, setActiveTab] = useState<number>(1)
-  const [isModalActive, setIsModalActive] = useState<boolean>()
-  const [isToastActive, setIsToastActive] = useState<boolean>()
+  const [isModalActive, setIsModalActive] = useState<boolean>(false)
+  const [isToastActive, setIsToastActive] = useState<boolean>(false)
   const [toastMessage, setToastMessage] = useState<string>('')
 
   const fetchRecipeDetail = () => {
@@ -104,8 +105,8 @@ function Detail() {
               <h3 className='font-semibold'>Bahan</h3>
                 {recipe.ingredients.bahan.length > 0 && (
                   <ul className='list-disc px-4'>
-                  {recipe?.ingredients?.bahan?.map(item => (
-                    <li className="py-1">{item}</li>
+                  {recipe?.ingredients?.bahan?.map((item, index) => (
+                    <li key={index} className="py-1">{item}</li>
                   ))}
                   </ul>
                 )}
@@ -114,8 +115,8 @@ function Detail() {
               <h3 className='font-semibold'>Bumbu</h3>
                 {recipe.ingredients.bumbu.length > 0 && (
                   <ul className='list-disc px-4'>
-                  {recipe?.ingredients?.bumbu?.map(item => (
-                    <li className="py-1">{item}</li>
+                  {recipe?.ingredients?.bumbu?.map((item, index) => (
+                    <li key={index} className="py-1">{item}</li>
                   ))}
                   </ul>
                 )}
@@ -125,12 +126,20 @@ function Detail() {
           
           {activeTab === 2 && (
             <div className="px-4 mt-6 w-full flex flex-col">
-              <h3 className='font-semibold'>Cara Membuat</h3>
+              <div className="flex gap-x-3">
+                <h3 className='font-semibold'>Cara Membuat</h3>
+                <div className="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 mr-1 text-gray-500">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-gray-700 text-sm">{recipe.duration} menit</span>
+                </div>
+              </div>
               <div className='w-full'>
                 {recipe.tutorial.length > 0 && (
                   <ol className='list-decimal px-4'>
-                  {recipe?.tutorial?.map(item => (
-                    <li className="py-1">{item}</li>
+                  {recipe?.tutorial?.map((item, index) => (
+                    <li key={index} className="py-1">{item}</li>
                   ))}
                   </ol>
                 )}
@@ -151,43 +160,19 @@ function Detail() {
             Mulai Masak Yuk
           </button>
           <button type="button" className="bg-yellow-400 p-2 rounded-full" onClick={() => setIsModalActive(true)}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
             </svg>
           </button>
         </div>
         
         {isToastActive &&
-          <div className='absolute bottom-6 w-full flex justify-center z-30'>
-            <div className="max-w-xs bg-green-100 border border-green-200 text-sm text-green-500 rounded-md shadow-md" role="alert">
-              <div className="flex p-4">
-                {toastMessage}
-              </div>
-            </div>
-          </div>
+          <Toast message={toastMessage} />
         }
 
         {isModalActive && (
-          <div id="defaultModal" tabIndex={-1} aria-hidden="true" className="fixed top-40 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div className="relative w-full max-w-2xl max-h-full">
-              {/* Modal content */}
-              <div className="relative rounded-lg shadow bg-yellow-100">
-                <button type="button" className="float-right pt-2 pr-2" onClick={() => setIsModalActive(false)}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-                {/* Modal body */}
-                <div className="p-6 space-y-6">
-                  <p className="text-base leading-relaxed">
-                      {recipe.tips}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Modal recipe={recipe} handleModal={() => setIsModalActive(false)} />
         )}
-
 
       </section>
     </>
