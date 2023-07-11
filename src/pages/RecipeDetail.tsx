@@ -1,39 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-
-interface Ingredient {
-  bahan: [];
-  bumbu: [];
-}
-interface Recipe {
-  id: string;
-  createdAt: number;
-  name: string;
-  description: string;
-  rating: number;
-  ingredients: Ingredient;
-  tutorial: [];
-  image: string;
-  duration: number;
-  tips: string
-}
-
-const RecipeDefault: Recipe = {
-  id: '',
-  createdAt: 0,
-  name: '',
-  description: '',
-  rating: 0,
-  ingredients: {
-    bahan: [],
-    bumbu: []
-  },
-  tutorial: [],
-  image: '',
-  duration: 0,
-  tips: ''
-}
+import { Recipe, RecipeDefault } from '../types';
 
 function Detail() {
   let { id } = useParams();

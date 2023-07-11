@@ -1,25 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-interface Ingredient {
-  bahan: [];
-  bumbu: [];
-}
-interface Recipes {
-  id: string;
-  createdAt: number;
-  name: string;
-  description: string;
-  rating: number;
-  ingredients: Ingredient;
-  tutorial: [];
-  image: string;
-  duration: number;
-  tips: string
-}
+import { Recipe } from '../types';
 
 function App() {
-  const [recipes, setRecipes] = useState<Recipes[]>([])
+  const [recipes, setRecipes] = useState<Recipe[]>([])
 
   const fetchRecipeData = () => {
     fetch("https://64abcedc9edb4181202e94ea.mockapi.io/api/recipes")
