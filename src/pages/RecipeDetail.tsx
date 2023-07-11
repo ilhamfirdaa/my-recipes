@@ -38,8 +38,8 @@ function Detail() {
 
   return (
     <>
-      <header className="bg-white top-0 left-0 w-full z-10 fixed">
-        <div className="container flex items-center justify-between w-full h-16 p-4">
+      <header className="bg-white top-0 w-full z-10 sticky max-w-sm m-auto">
+        <div className="container flex items-center justify-between w-full h-16 p-4 shadow">
           {/* back button */}
           <Link to={`/`}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -75,7 +75,7 @@ function Detail() {
         </div>
       </header>
 
-      <section className="pt-16 mb-20">
+      <section className="mb-20 max-w-sm m-auto">
         <div className="container">
           <div className="w-full overflow-hidden h-80">
             <img src={recipe?.image} alt={recipe?.id} height="320"  />
@@ -148,7 +148,7 @@ function Detail() {
           )}
         </div>
 
-        <div className="fixed bottom-6 flex w-full justify-evenly z-20">
+        <div className="fixed bottom-6 flex w-full justify-evenly z-20 max-w-sm m-auto">
           <button 
             type="button"
             className="bg-yellow-400 py-2 px-10 rounded-full"

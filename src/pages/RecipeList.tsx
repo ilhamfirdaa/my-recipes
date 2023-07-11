@@ -21,7 +21,7 @@ function App() {
   
 
   return (
-    <div className="container">
+    <div className="container max-w-sm m-auto">
       <div className="flex flex-wrap p-4">
         {recipes.length > 0 && (
             recipes.map(recipe => (
